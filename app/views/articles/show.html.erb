@@ -1,0 +1,67 @@
+<div class="container mt-4">
+<%= link_to "← Back to Articles", articles_path, class: "btn btn-secondary btn-sm mb-3" %>
+  <!-- ARTICLE -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+
+      <h2><%= @article.title %></h2>
+
+      <p class="mt-3">
+        <%= @article.body %>
+      </p>
+
+      <hr>
+
+      <%= link_to "Edit", edit_article_path(@article), class: "btn btn-warning btn-sm" %>
+
+      <%= link_to "Destroy",
+          article_path(@article),
+          method: :delete,
+          data: { confirm: "Are you sure?" },
+          class: "btn btn-danger btn-sm" %>
+
+      <%= link_to "Back", articles_path, class: "btn btn-secondary btn-sm" %>
+
+    </div>
+  </div>
+
+  <!-- COMMENTS -->
+  <div class="card mb-4">
+    <div class="card-body">
+
+      <h4>Comments</h4>
+
+      <% @article.comments.each do |comment| %>
+        <div class="border-bottom py-2">
+          <strong><%= comment.commenter %></strong>
+          <p><%= comment.body %></p>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+
+  <!-- ADD COMMENT -->
+  <div class="card">
+    <div class="card-body">
+
+      <h4>Add a comment</h4>
+
+      <%= form_with(model: [@article, @article.comments.build]) do |f| %>
+
+        <div class="mb-2">
+          <%= f.text_field :commenter, placeholder: "Your name", class: "form-control" %>
+        </div>
+
+        <div class="mb-2">
+          <%= f.text_area :body, placeholder: "Your comment", class: "form-control" %>
+        </div>
+
+        <%= f.submit "Post Comment", class: "btn btn-primary" %>
+
+      <% end %>
+
+    </div>
+  </div>
+
+</div>
