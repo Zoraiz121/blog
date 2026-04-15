@@ -1,3 +1,30 @@
-<h1>New Article</h1>
+<div class="container mt-4">
+  <div class="card shadow p-4">
 
-<%= render "form", article: @article %>
+    <h2 class="mb-4">Create New Article</h2>
+
+    <%= form_with(model: @post, local: true) do |f| %>
+
+      <div class="mb-3">
+        <%= f.label :title, class: "form-label" %>
+        <%= f.text_field :title, class: "form-control", placeholder: "Enter title..." %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :body, class: "form-label" %>
+        <%= f.text_area :body, rows: 8, class: "form-control", placeholder: "Write your article..." %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :image, "Featured Image", class: "form-label" %>
+        <%= f.file_field :image, class: "form-control" %>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <%= f.submit "Publish Article", class: "btn btn-primary px-4" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>
