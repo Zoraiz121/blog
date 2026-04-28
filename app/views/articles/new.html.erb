@@ -2,8 +2,19 @@
   <div class="card shadow p-4">
 
     <h2 class="mb-4">Create New Article</h2>
+    <% if @article.errors.any? %>
+  <div class="alert alert-danger">
+    <h4><%= pluralize(@article.errors.count, "error") %> prevented this article from being saved:</h4>
 
-    <%= form_with(model: @post, local: true) do |f| %>
+    <ul>
+      <% @article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+    <%= form_with(model: @article, local: true) do |f| %>
 
       <div class="mb-3">
         <%= f.label :title, class: "form-label" %>
@@ -16,12 +27,20 @@
       </div>
 
       <div class="mb-3">
-        <%= f.label :image, "Featured Image", class: "form-label" %>
-        <%= f.file_field :image, class: "form-control" %>
+        <%= f.label :status, class: "form-label" %>
+        <%= f.select :status,
+          [["Public", "public"], ["Private", "private"], ["Archived", "archived"]],
+          {},
+          class: "form-select" %>
       </div>
 
-      <div class="d-flex justify-content-end">
-        <%= f.submit "Publish Article", class: "btn btn-primary px-4" %>
+      <div class="d-flex justify-content-between">
+        <%= link_to "← Back to Articles",
+            articles_path,
+            class: "btn btn-outline-secondary" %>
+
+        <%= f.submit "Publish Article",
+            class: "btn btn-primary px-4" %>
       </div>
 
     <% end %>
