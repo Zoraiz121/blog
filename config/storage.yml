@@ -1,3 +1,10 @@
+# Active Storage service configurations.
+# The active service is selected by config.active_storage.service
+# in each environment file.
+#
+# Documentation: https://guides.rubyonrails.org/active_storage_overview.html
+
+# ==> Local disk (development and test only)
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
@@ -6,29 +13,67 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket-<%= Rails.env %>
+# ==> Amazon S3
+# Required environment variables:
+#   AWS_ACCESS_KEY_ID
+#   AWS_SECRET_ACCESS_KEY
+#   AWS_REGION          — e.g. us-east-1
+#   AWS_BUCKET          — your S3 bucket name
+#
+# IAM policy required on the bucket:
+#   s3:GetObject, s3:PutObject, s3:DeleteObject, s3:ListBucket
+#
+# gem required: gem "aws-sdk-s3", require: false
+amazon:
+  service: S3
+  access_key_id:     <%= ENV.fetch("AWS_ACCESS_KEY_ID", "") %>
+  secret_access_key: <%= ENV.fetch("AWS_SECRET_ACCESS_KEY", "") %>
+  region:            <%= ENV.fetch("AWS_REGION", "us-east-1") %>
+  bucket:            <%= ENV.fetch("AWS_BUCKET", "") %>
+  # Optional: serve assets through CloudFront CDN
+  # upload:
+  #   cache_control: "public, max-age=31536000"
 
-# Remember not to checkin your GCS keyfile to a repository
-# google:
-#   service: GCS
-#   project: your_project
-#   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
-#   bucket: your_own_bucket-<%= Rails.env %>
+# ==> Google Cloud Storage
+# Required environment variables:
+#   GCS_PROJECT
+#   GCS_BUCKET
+#   GCS_CREDENTIALS_PATH — path to service account JSON keyfile
+#                          OR use GCS_CREDENTIALS as a JSON string
+#
+# gem required: gem "google-cloud-storage", "~> 1.11", require: false
+google:
+  service: GCS
+  project:     <%= ENV.fetch("GCS_PROJECT", "") %>
+  credentials: <%= ENV.fetch("GCS_CREDENTIALS_PATH", Rails.root.join("config/gcs_credentials.json")) %>
+  bucket:      <%= ENV.fetch("GCS_BUCKET", "") %>
 
-# Use bin/rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
-# microsoft:
-#   service: AzureStorage
-#   storage_account_name: your_account_name
-#   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
-#   container: your_container_name-<%= Rails.env %>
+# ==> Cloudflare R2
+# R2 is S3-compatible — uses the S3 service adapter with a custom endpoint.
+# Significantly cheaper than S3 for egress-heavy workloads (no egress fees).
+#
+# Required environment variables:
+#   R2_ACCESS_KEY_ID
+#   R2_SECRET_ACCESS_KEY
+#   R2_BUCKET
+#   R2_ENDPOINT   — e.g. https://<account_id>.r2.cloudflarestorage.com
+#
+# gem required: gem "aws-sdk-s3", require: false
+cloudflare_r2:
+  service: S3
+  access_key_id:     <%= ENV.fetch("R2_ACCESS_KEY_ID", "") %>
+  secret_access_key: <%= ENV.fetch("R2_SECRET_ACCESS_KEY", "") %>
+  endpoint:          <%= ENV.fetch("R2_ENDPOINT", "") %>
+  bucket:            <%= ENV.fetch("R2_BUCKET", "") %>
+  region:            auto
+  force_path_style:  true
 
+# ==> Mirror service (optional — write to multiple providers simultaneously)
+# Useful when migrating from one provider to another with zero downtime.
+# Reads from primary, writes to all mirrors in parallel.
+#
 # mirror:
 #   service: Mirror
-#   primary: local
-#   mirrors: [ amazon, google, microsoft ]
+#   primary: amazon
+#   mirrors:
+#     - cloudflare_r2

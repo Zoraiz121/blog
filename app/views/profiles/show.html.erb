@@ -1,0 +1,88 @@
+<div class="container py-5">
+  <div class="row">
+
+    <%# ── Left column: profile card ──────────────────────────── %>
+    <div class="col-md-4 mb-4 mb-md-0">
+      <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
+
+        <%# Avatar placeholder — Active Storage avatar upload is P2 %>
+        <div class="rounded-circle bg-dark text-white d-flex align-items-center
+                    justify-content-center mx-auto mb-3"
+             style="width: 80px; height: 80px; font-size: 2rem;">
+          <%= @user.name.presence&.first&.upcase || @user.email.first.upcase %>
+        </div>
+
+        <h4 class="fw-bold mb-1">
+          <%= @user.name.presence || "No display name set" %>
+        </h4>
+
+        <% if @user.occupation.present? %>
+          <p class="text-muted mb-2"><%= @user.occupation %></p>
+        <% end %>
+
+        <p class="text-muted small mb-3"><%= @user.email %></p>
+
+        <%= link_to "Edit Profile",
+              edit_user_registration_path,
+              class: "btn btn-outline-dark btn-sm" %>
+
+      </div>
+    </div>
+
+    <%# ── Right column: recent articles ──────────────────────── %>
+    <div class="col-md-8">
+      <h5 class="fw-bold mb-3">Your Recent Articles</h5>
+
+      <% if @articles.empty? %>
+        <div class="text-center py-5 text-muted border rounded-4">
+          <p class="mb-2">You have not published any articles yet.</p>
+          <%= link_to "Write your first article",
+                new_article_path,
+                class: "btn btn-dark btn-sm" %>
+        </div>
+      <% else %>
+        <% @articles.each do |article| %>
+          <div class="card border-0 shadow-sm rounded-4 mb-3">
+            <div class="card-body p-3 d-flex justify-content-between align-items-start">
+
+              <div>
+                <h6 class="fw-bold mb-1">
+                  <%= link_to article.title,
+                        article_path(article),
+                        class: "text-dark text-decoration-none" %>
+                </h6>
+                <small class="text-muted">
+                  <%= article.created_at.strftime("%B %d, %Y") %>
+                  &middot;
+                  <span class="badge bg-secondary">
+                    <%= article.status_label %>
+                  </span>
+                </small>
+              </div>
+
+              <div class="d-flex gap-2 ms-3 flex-shrink-0">
+                <%= link_to "Edit",
+                      edit_article_path(article),
+                      class: "btn btn-outline-primary btn-sm" %>
+
+                <%= button_to "Delete",
+                      article_path(article),
+                      method: :delete,
+                      data: { turbo_confirm: "Delete this article?" },
+                      class: "btn btn-outline-danger btn-sm" %>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+
+        <div class="text-center mt-3">
+          <%= link_to "View all articles",
+                articles_path,
+                class: "btn btn-outline-dark btn-sm" %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

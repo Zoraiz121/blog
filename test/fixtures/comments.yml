@@ -1,11 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  commenter: MyString
-  body: MyText
+  commenter: Alice Example
+  body: This is the first comment on the first article.
   article: one
+  user: one
 
 two:
-  commenter: MyString
-  body: MyText
+  commenter: Bob Example
+  body: This is the second comment on the second article.
   article: two
+  user: two

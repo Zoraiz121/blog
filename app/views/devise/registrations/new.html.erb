@@ -1,41 +1,74 @@
-<div class="container mt-5">
+<div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-5">
 
       <div class="card shadow">
-        <div class="card-body">
+        <div class="card-body p-4">
 
-          <h3 class="text-center mb-4">Sign Up</h3>
+          <h3 class="text-center mb-4">Create Your Account</h3>
+
+          <%= render "devise/shared/error_messages", resource: resource %>
 
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
+            <%# ── Profile fields ──────────────────────────────────── %>
             <div class="mb-3">
-              <%= f.label :email %>
-              <%= f.email_field :email, class: "form-control", autofocus: true %>
+              <%= f.label :name, class: "form-label" %>
+              <%= f.text_field :name,
+                    class: "form-control",
+                    placeholder: "Your display name",
+                    autocomplete: "name" %>
+              <div class="form-text">
+                This is how your name appears on articles you publish.
+              </div>
             </div>
 
             <div class="mb-3">
-              <%= f.label :password %>
+              <%= f.label :occupation, class: "form-label" %>
+              <%= f.text_field :occupation,
+                    class: "form-control",
+                    placeholder: "e.g. Software Engineer, Writer, Designer",
+                    autocomplete: "organization-title" %>
+            </div>
+
+            <%# ── Account credential fields ───────────────────────── %>
+            <div class="mb-3">
+              <%= f.label :email, class: "form-label" %>
+              <%= f.email_field :email,
+                    class: "form-control",
+                    autofocus: true,
+                    autocomplete: "email",
+                    placeholder: "you@example.com" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :password, class: "form-label" %>
               <% if @minimum_password_length %>
-                <small class="text-muted">(<%= @minimum_password_length %> characters minimum)</small>
+                <span class="text-muted small">
+                  (<%= @minimum_password_length %> characters minimum)
+                </span>
               <% end %>
-              <%= f.password_field :password, class: "form-control" %>
+              <%= f.password_field :password,
+                    class: "form-control",
+                    autocomplete: "new-password" %>
             </div>
 
             <div class="mb-3">
-              <%= f.label :password_confirmation %>
-              <%= f.password_field :password_confirmation, class: "form-control" %>
+              <%= f.label :password_confirmation, class: "form-label" %>
+              <%= f.password_field :password_confirmation,
+                    class: "form-control",
+                    autocomplete: "new-password" %>
             </div>
 
-            <div class="d-grid">
-              <%= f.submit "Create Account", class: "btn btn-primary" %>
+            <div class="d-grid mt-4">
+              <%= f.submit "Create Account", class: "btn btn-primary btn-lg" %>
             </div>
 
           <% end %>
 
           <hr>
 
-          <div class="text-center">
+          <div class="text-center small">
             <%= render "devise/shared/links" %>
           </div>
 

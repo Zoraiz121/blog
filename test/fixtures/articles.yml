@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  body: MyText
+  title: My First Article
+  body: This is the body of the first article. It has enough content to pass validation.
+  user: one
 
 two:
-  title: MyString
-  body: MyText
+  title: My Second Article
+  body: This is the body of the second article. It also has enough content to pass validation.
+  user: two

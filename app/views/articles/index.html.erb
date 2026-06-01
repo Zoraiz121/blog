@@ -9,41 +9,68 @@
     <%= link_to "+ New Article", new_article_path, class: "btn btn-dark px-4" %>
   </div>
 
-  <% @articles.each do |article| %>
-    <div class="card shadow-sm border-0 rounded-4 mb-4">
-
-      <div class="card-body p-4 d-flex flex-column">
-
-        <h2 class="fw-bold mb-3">
-          <%= link_to article.title,
-            article_path(article),
-            class: "text-dark text-decoration-none" %>
-        </h2>
-
-        <p class="text-muted mb-3">
-          <%= truncate(article.body, length: 180) %>
-        </p>
-
-        <div class="mt-auto d-flex justify-content-between align-items-center">
-          <small class="text-secondary">
-            <%= article.created_at.strftime("%B %d, %Y") %>
-          </small>
-
-          <div class="d-flex gap-2">
-            <%= link_to "View", article_path(article), class: "btn btn-outline-dark btn-sm" %>
-            <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-primary btn-sm" %>
-
-            <%= button_to "Delete",
-              article_path(article),
-              method: :delete,
-              data: { turbo_confirm: "Are you sure?" },
-              class: "btn btn-outline-danger btn-sm" %>
-          </div>
-        </div>
-
-      </div>
-
+  <% if @articles.empty? %>
+    <div class="text-center py-5 text-muted">
+      <p class="fs-5">No articles yet.</p>
+      <%= link_to "Write your first article",
+            new_article_path,
+            class: "btn btn-dark mt-2" %>
     </div>
+  <% else %>
+    <% @articles.each do |article| %>
+      <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-body p-4 d-flex flex-column">
+
+          <h2 class="fw-bold mb-3">
+            <%= link_to article.title,
+                  article_path(article),
+                  class: "text-dark text-decoration-none" %>
+          </h2>
+
+          <p class="text-muted mb-3">
+            <%= truncate(article.body, length: 180) %>
+          </p>
+
+          <div class="mt-auto d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+              <small class="text-secondary">
+                <%= article.created_at.strftime("%B %d, %Y") %>
+              </small>
+              <small class="text-secondary">
+                By <%= article.user.name.presence || article.user.email %>
+              </small>
+              <small class="text-secondary">
+                <%= article.comments_count %>
+                <%= "comment".pluralize(article.comments_count) %>
+              </small>
+            </div>
+
+            <div class="d-flex gap-2">
+              <%= link_to "View",
+                    article_path(article),
+                    class: "btn btn-outline-dark btn-sm" %>
+
+              <%# own? is provided by Authorizable concern via helper_method.
+                  Returns false safely for guests — no nil guard needed. %>
+              <% if own?(article) %>
+                <%= link_to "Edit",
+                      edit_article_path(article),
+                      class: "btn btn-outline-primary btn-sm" %>
+
+                <%= button_to "Delete",
+                      article_path(article),
+                      method: :delete,
+                      data: { turbo_confirm: "Are you sure?" },
+                      class: "btn btn-outline-danger btn-sm" %>
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+
+    <%= render "shared/pagination", pagy: @pagy %>
   <% end %>
 
 </div>
