@@ -1,47 +1,15 @@
-<%#
-  Reusable flash message partial.
-
-  Renders Bootstrap 5 dismissable alerts for all flash message types.
-  Include in any layout with: <%= render "shared/flash" %>
-
-  Supported flash keys and their Bootstrap mapping:
-    notice  → alert-success  (green)  — confirmations, success messages
-    success → alert-success  (green)  — explicit success (used by some gems)
-    alert   → alert-warning  (yellow) — warnings, soft errors
-    error   → alert-danger   (red)    — hard errors, authorization failures
-
-  Bootstrap's data-bs-dismiss="alert" handles the dismiss button via
-  bootstrap.bundle.min.js which is already loaded in the layout.
-%>
-
-<%
-  # Map flash keys to Bootstrap alert classes.
-  # Any unmapped flash key falls back to alert-info (blue).
-  flash_class_map = {
-    "notice"  => "alert-success",
-    "success" => "alert-success",
-    "alert"   => "alert-warning",
-    "error"   => "alert-danger"
-  }
-%>
+<% flash_class_map = {
+  "notice" => "alert-success",
+  "success" => "alert-success",
+  "alert" => "alert-warning",
+  "error" => "alert-danger"
+} %>
 
 <% flash.each do |type, message| %>
   <% next if message.blank? %>
 
-  <div class="alert <%= flash_class_map.fetch(type, "alert-info") %> alert-dismissible fade show mb-0 rounded-0"
-       role="alert">
-
-    <div class="container">
-      <div class="d-flex align-items-center justify-content-between">
-        <span><%= message %></span>
-
-        <button type="button"
-                class="btn-close ms-3"
-                data-bs-dismiss="alert"
-                aria-label="Close">
-        </button>
-      </div>
-    </div>
-
+  <div class="alert <%= flash_class_map.fetch(type, "alert-info") %> alert-dismissible fade show mb-0 rounded-0" role="alert">
+    <%= message %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   </div>
 <% end %>

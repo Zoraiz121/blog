@@ -1,30 +1,62 @@
-<div class="container py-5">
+<div class="container my-5">
+  <%= link_to "← Back to Articles", articles_path, class: "btn btn-outline-secondary mb-4" %>
 
-  <%= link_to "← Back to Articles", articles_path,
-    class: "btn btn-outline-secondary mb-4" %>
-
-  <div class="card shadow border-0 rounded-4 overflow-hidden">
-
-    <!-- HERO IMAGE -->
-    <% if @article.image.attached? %>
-      <%= image_tag @article.image,
-        class: "w-100",
-        style: "max-height: 500px; object-fit: cover;" %>
-    <% end %>
+<% if @article.cover_image.attached? %>
+  <%= image_tag @article.cover_image,
+      class: "img-fluid rounded mb-4",
+      style: "max-height: 500px; object-fit: cover; width: 100%;" %>
+<% end %>
 
     <div class="card-body p-5">
-
       <h1 class="fw-bold mb-3"><%= @article.title %></h1>
+      <p class="text-muted">Published on <%= @article.created_at.strftime("%B %d, %Y") %></p>
+      <div class="fs-5"><%= simple_format(@article.body) %></div>
+    </div>
+  </div>
 
-      <p class="text-muted mb-4">
-        Published on <%= @article.created_at.strftime("%B %d, %Y") %>
-      </p>
-
-      <div class="fs-5 lh-lg">
-        <%= simple_format(@article.body) %>
-      </div>
-
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white">
+      <h3 class="mb-0">Comments</h3>
     </div>
 
+    <div class="card-body">
+      <% if user_signed_in? %>
+        <%= form_with model: [@article, @comment], local: true do |f| %>
+          <div class="mb-3">
+            <%= f.text_area :body, class: "form-control", rows: 3, placeholder: "Write a comment..." %>
+          </div>
+          <%= f.submit "Add Comment", class: "btn btn-dark btn-sm" %>
+        <% end %>
+        <hr>
+      <% end %>
+
+      <% if @comments.any? %>
+        <% @comments.each do |comment| %>
+          <div class="border rounded p-3 mb-3">
+            <p class="mb-2"><%= comment.body %></p>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">
+                By <%= comment.user.name.presence || comment.user.email %>
+              </small>
+
+              <% if user_signed_in? && comment.user == current_user %>
+                <div class="d-flex gap-2">
+                  <%= link_to "Edit", edit_article_comment_path(@article, comment), class: "btn btn-outline-primary btn-sm" %>
+
+                  <%= button_to "Delete",
+                      article_comment_path(@article, comment),
+                      method: :delete,
+                      data: { turbo_confirm: "Are you sure?" },
+                      class: "btn btn-outline-danger btn-sm" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-muted">No comments yet.</p>
+      <% end %>
+    </div>
   </div>
 </div>

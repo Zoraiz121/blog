@@ -1,7 +1,3 @@
-cat > app/views/shared/_pagination.html.erb << 'EOF'
 <% if @pagy && @pagy.pages > 1 %>
-  <div class="pagination-wrapper">
-    <%= pagy_nav(@pagy) %>
-  </div>
+  <%= pagy_nav(@pagy) %>
 <% end %>
-EOF

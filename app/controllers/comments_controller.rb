@@ -15,12 +15,19 @@ class CommentsController < ApplicationController
     end
   end
 
-  def destroy
+before_action :authenticate_user!, only: [ :destroy ]
+
+def destroy
+  @article = Article.friendly.find(params[:article_id])
+  @comment = @article.comments.find(params[:id])
+
+  if @comment.user == current_user
     @comment.destroy
-    redirect_to article_path(@article),
-                notice: "Comment deleted.",
-                status: :see_other
+    redirect_to @article, notice: "Comment deleted"
+  else
+    redirect_to @article, alert: "Not authorized"
   end
+end
 
   private
 
