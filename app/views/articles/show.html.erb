@@ -3,60 +3,51 @@
 
 <% if @article.cover_image.attached? %>
   <%= image_tag @article.cover_image,
-      class: "img-fluid rounded mb-4",
-      style: "max-height: 500px; object-fit: cover; width: 100%;" %>
+      class: "w-100 rounded mb-4",
+      style: "max-height: 500px; object-fit: cover;" %>
+<% elsif @article.image.attached? %>
+  <%= image_tag @article.image,
+      class: "w-100 rounded mb-4",
+      style: "max-height: 500px; object-fit: cover;" %>
 <% end %>
 
-    <div class="card-body p-5">
-      <h1 class="fw-bold mb-3"><%= @article.title %></h1>
-      <p class="text-muted">Published on <%= @article.created_at.strftime("%B %d, %Y") %></p>
-      <div class="fs-5"><%= simple_format(@article.body) %></div>
-    </div>
+  <h1><%= @article.title %></h1>
+  <p class="text-muted">Published on <%= @article.created_at.strftime("%B %d, %Y") %></p>
+
+  <div class="mb-5">
+    <%= simple_format(@article.body) %>
   </div>
 
-  <div class="card shadow-sm border-0">
-    <div class="card-header bg-white">
-      <h3 class="mb-0">Comments</h3>
-    </div>
+  <hr>
 
-    <div class="card-body">
-      <% if user_signed_in? %>
-        <%= form_with model: [@article, @comment], local: true do |f| %>
-          <div class="mb-3">
-            <%= f.text_area :body, class: "form-control", rows: 3, placeholder: "Write a comment..." %>
-          </div>
-          <%= f.submit "Add Comment", class: "btn btn-dark btn-sm" %>
-        <% end %>
-        <hr>
-      <% end %>
+  <h3>Comments</h3>
 
-      <% if @comments.any? %>
-        <% @comments.each do |comment| %>
-          <div class="border rounded p-3 mb-3">
-            <p class="mb-2"><%= comment.body %></p>
+  <% if user_signed_in? %>
+    <%= form_with model: [@article, @comment], local: true do |f| %>
+      <%= f.text_area :body, rows: 3, class: "form-control mb-2", placeholder: "Write a comment..." %>
+      <%= f.submit "Add Comment", class: "btn btn-dark btn-sm mb-4" %>
+    <% end %>
+  <% end %>
 
-            <div class="d-flex justify-content-between align-items-center">
-              <small class="text-muted">
-                By <%= comment.user.name.presence || comment.user.email %>
-              </small>
+  <% @comments.each do |comment| %>
+    <div class="border rounded p-3 mb-3">
+      <p><%= comment.body %></p>
 
-              <% if user_signed_in? && comment.user == current_user %>
-                <div class="d-flex gap-2">
-                  <%= link_to "Edit", edit_article_comment_path(@article, comment), class: "btn btn-outline-primary btn-sm" %>
+      <small class="text-muted">
+        By <%= comment.user.name.presence || comment.user.email %>
+      </small>
 
-                  <%= button_to "Delete",
-                      article_comment_path(@article, comment),
-                      method: :delete,
-                      data: { turbo_confirm: "Are you sure?" },
-                      class: "btn btn-outline-danger btn-sm" %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% else %>
-        <p class="text-muted">No comments yet.</p>
+      <% if user_signed_in? && comment.user == current_user %>
+        <div class="mt-2 d-flex gap-2">
+          <%= link_to "Edit", edit_article_comment_path(@article, comment), class: "btn btn-outline-primary btn-sm" %>
+
+          <%= button_to "Delete",
+              article_comment_path(@article, comment),
+              method: :delete,
+              data: { turbo_confirm: "Are you sure?" },
+              class: "btn btn-outline-danger btn-sm" %>
+        </div>
       <% end %>
     </div>
-  </div>
+  <% end %>
 </div>
