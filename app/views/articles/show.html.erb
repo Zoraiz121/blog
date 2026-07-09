@@ -4,50 +4,27 @@
 
     <article class="card border-0 shadow-sm overflow-hidden">
       <% if @article.cover_image.attached? %>
-        <%= image_tag @article.cover_image,
-            class: "article-hero-img",
-            alt: @article.title %>
+        <%= image_tag @article.cover_image, class: "article-hero-img", alt: @article.title %>
       <% elsif @article.image.attached? %>
-        <%= image_tag @article.image,
-            class: "article-hero-img",
-            alt: @article.title %>
+        <%= image_tag @article.image, class: "article-hero-img", alt: @article.title %>
       <% end %>
 
-<div class="card-body p-4 p-md-5">
+      <div class="card-body p-4 p-md-5">
+        <div class="d-flex gap-2 mb-3 flex-wrap">
+          <% if @article.category.present? %>
+            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+              <%= @article.category %>
+            </span>
+          <% end %>
 
-  <div class="d-flex gap-2 mb-3">
+          <span class="badge bg-dark-subtle text-dark px-3 py-2">
+            <%= @article.status == "public" ? "Published" : @article.status.to_s.titleize %>
+          </span>
+        </div>
 
-    <% if @article.category.present? %>
-      <span class="badge bg-primary-subtle text-primary px-3 py-2">
-        <%= @article.category %>
-      </span>
-    <% end %>
-
-    <span class="badge bg-dark-subtle text-dark px-3 py-2">
-      <%= @article.status == "public" ? "Published" : @article.status.to_s.titleize %>
-    </span>
-
-  </div>
-
-  <h1 class="display-6 fw-bold mb-3">
-    <%= @article.title %>
-  </h1>
-
-  <div class="d-flex flex-wrap gap-3 text-muted mb-4 small">
-    <span>
-      📅 Published on
-      <%= @article.created_at.strftime("%B %d, %Y") %>
-    </span>
-
-    <% if @article.user.present? %>
-      <span>
-        ✍️ By
-        <%= link_to (@article.user.name.presence || @article.user.email),
-            user_path(@article.user),
-            class: "text-decoration-none fw-semibold" %>
-      </span>
-    <% end %>
-  </div>
+        <h1 class="display-6 fw-bold mb-3">
+          <%= @article.title %>
+        </h1>
 
         <div class="d-flex flex-wrap gap-3 text-muted mb-4 small">
           <span>
@@ -56,7 +33,7 @@
 
           <% if @article.user.present? %>
             <span>
-              By <%= @article.user.name.presence || @article.user.email %>
+              By <strong><%= @article.user.name.presence || @article.user.email %></strong>
             </span>
           <% end %>
         </div>
@@ -84,9 +61,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
           <div>
             <h3 class="fw-bold mb-1">Comments</h3>
-            <p class="text-muted mb-0">
-              Join the discussion below
-            </p>
+            <p class="text-muted mb-0">Join the discussion below</p>
           </div>
 
           <span class="badge rounded-pill bg-dark">
