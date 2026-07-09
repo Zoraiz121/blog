@@ -3,10 +3,11 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: [ :show, :edit, :update, :destroy ]
 
 
-  def index
-    @articles = Article.includes(:user)
-                       .order(created_at: :desc)
-  end
+def index
+  @articles = Article
+                .includes(:image_attachment, :cover_image_attachment)
+                .order(created_at: :desc)
+end
 
   def show
     @comments = @article.comments.includes(:user).order(created_at: :desc)

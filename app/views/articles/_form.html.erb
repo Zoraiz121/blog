@@ -1,18 +1,81 @@
-<%= form_with model: @article, scope: :article, local: true, html: { multipart: true } do |f| %>
-  <div class="mb-3">
-    <%= f.label :title, class: "form-label" %>
-    <%= f.text_field :title, class: "form-control" %>
-  </div>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="fw-bold mb-2">
+            <%= @article.persisted? ? "Edit Article" : "Create New Article" %>
+          </h2>
 
-  <div class="mb-3">
-    <%= f.label :body, class: "form-label" %>
-    <%= f.text_area :body, rows: 6, class: "form-control" %>
-  </div>
+          <p class="text-muted mb-4">
+            Write your article details below. Image upload is optional.
+          </p>
 
-  <div class="mb-3">
-    <%= f.label :cover_image, "Image optional", class: "form-label" %>
-    <%= f.file_field :cover_image, class: "form-control" %>
-  </div>
+          <%= form_with model: @article, local: true, html: { multipart: true } do |f| %>
+            <% if @article.errors.any? %>
+              <div class="alert alert-danger">
+                <h6 class="fw-bold">Please fix the following errors:</h6>
+                <ul class="mb-0">
+                  <% @article.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
 
-  <%= f.submit class: "btn btn-dark" %>
-<% end %>
+            <div class="mb-4">
+              <%= f.label :title, class: "form-label fw-semibold" %>
+              <%= f.text_field :title,
+                  class: "form-control form-control-lg",
+                  placeholder: "Enter article title" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :body, "Article Body", class: "form-label fw-semibold" %>
+              <%= f.text_area :body,
+                  rows: 10,
+                  class: "form-control",
+                  placeholder: "Write your article content here..." %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :status, class: "form-label fw-semibold" %>
+              <%= f.select :status,
+                  [["Public", "public"], ["Private", "private"], ["Archived", "archived"]],
+                  {},
+                  class: "form-select" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :cover_image, "Cover Image Optional", class: "form-label fw-semibold" %>
+              <%= f.file_field :cover_image, class: "form-control" %>
+
+              <% if @article.cover_image.attached? %>
+                <div class="mt-3">
+                  <p class="text-muted small mb-2">Current image:</p>
+                  <%= image_tag @article.cover_image,
+                      class: "rounded border",
+                      style: "max-width: 220px; height: 120px; object-fit: cover;" %>
+                </div>
+              <% elsif @article.respond_to?(:image) && @article.image.attached? %>
+                <div class="mt-3">
+                  <p class="text-muted small mb-2">Current image:</p>
+                  <%= image_tag @article.image,
+                      class: "rounded border",
+                      style: "max-width: 220px; height: 120px; object-fit: cover;" %>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="d-flex gap-2">
+              <%= f.submit @article.persisted? ? "Update Article" : "Create Article",
+                  class: "btn btn-dark px-4" %>
+
+              <%= link_to "Cancel", articles_path, class: "btn btn-outline-secondary px-4" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
