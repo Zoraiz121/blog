@@ -99,7 +99,7 @@
               <div class="article-meta mb-3">
                 <span><%= article.created_at.strftime("%b %d, %Y") %></span>
                 <span>•</span>
-                <span><%= pluralize(article.comments.count, "comment") %></span>
+                <span><%= pluralize(article.comments_count, "comment") %></span>
               </div>
 
               <div class="d-flex gap-2 flex-wrap mt-auto">

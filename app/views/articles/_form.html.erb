@@ -38,13 +38,13 @@
                   placeholder: "Write your article content here..." %>
             </div>
 
-            <div class="mb-4">
-              <%= f.label :status, class: "form-label fw-semibold" %>
-              <%= f.select :status,
-                  [["Published", "public"], ["Draft", "draft"], ["Archived", "archived"]],
-                  {},
-                  class: "form-select" %>
-            </div>
+<div class="mb-4">
+  <%= f.label :status, class: "form-label fw-semibold" %>
+  <%= f.select :status,
+      [["Published", "published"], ["Draft", "draft"], ["Archived", "archived"]],
+      {},
+      class: "form-select" %>
+</div>
 
             <div class="mb-4">
               <%= f.label :category, class: "form-label fw-semibold" %>
