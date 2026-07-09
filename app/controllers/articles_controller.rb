@@ -7,6 +7,13 @@ def index
   @articles = Article
                 .includes(:image_attachment, :cover_image_attachment)
                 .order(created_at: :desc)
+
+  if params[:query].present?
+    @articles = @articles.where(
+      "title LIKE :query OR body LIKE :query",
+      query: "%#{params[:query]}%"
+    )
+  end
 end
 
   def show
@@ -60,6 +67,6 @@ end
 
 
 def article_params
-  params.require(:article).permit(:title, :body, :status, :cover_image, :image)
+  params.require(:article).permit(:title, :body, :status, :category, :cover_image, :image)
 end
 end

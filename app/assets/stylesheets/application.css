@@ -131,3 +131,28 @@ body {
 .alert {
   border-radius: 0;
 }
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #111827;
+  color: white;
+  font-size: 38px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.article-card {
+  min-height: 100%;
+}
+
+.article-card h4 {
+  min-height: 58px;
+}
+
+.article-card p {
+  min-height: 72px;
+}
