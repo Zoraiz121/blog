@@ -30,7 +30,6 @@ end
 
 group :development do
   gem "web-console"
-  gem "error_highlight", ">= 0.4.0", platforms: [ :ruby ]
   gem "letter_opener"
   gem "bullet"
 end
