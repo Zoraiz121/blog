@@ -1,0 +1,17 @@
+<div class="container my-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h2 class="mb-4">Edit Comment</h2>
+
+      <%= form_with model: [@article, @comment], local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :body, "Comment", class: "form-label" %>
+          <%= f.text_area :body, rows: 4, class: "form-control" %>
+        </div>
+
+        <%= f.submit "Update Comment", class: "btn btn-dark" %>
+        <%= link_to "Cancel", article_path(@article), class: "btn btn-outline-secondary ms-2" %>
+      <% end %>
+    </div>
+  </div>
+</div>

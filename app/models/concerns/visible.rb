@@ -49,14 +49,13 @@ module Visible
     status == "published"
   end
 
-  def draft?
+def draft?
     status == "draft"
   end
 
   def archived?
     status == "archived"
   end
-
   # ---------------------------------------------------------------------------
   # Transition methods
   # Encapsulate status changes so the caller does not manage the string.
