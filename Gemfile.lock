@@ -433,7 +433,7 @@ DEPENDENCIES
   letter_opener
   pagy
   puma (>= 5.0)
-  rails (~> 7.2.2, >= 7.2.3)
+  rails (~> 7.2.2, >= 7.2.2.1)
   rubocop-rails-omakase
   selenium-webdriver
   sprockets-rails
