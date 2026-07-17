@@ -4,9 +4,16 @@ class ArticlesController < ApplicationController
 
 
 def index
-  @articles = Article
-                .includes(:image_attachment, :cover_image_attachment)
-                .order(created_at: :desc)
+  @articles = Article.order(created_at: :desc)
+
+  if params[:query].present?
+    search_term = "%#{ActiveRecord::Base.sanitize_sql_like(params[:query])}%"
+
+    @articles = @articles.where(
+      "title LIKE :term OR body LIKE :term",
+      term: search_term
+    )
+  end
 end
 
   def show
