@@ -1,17 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 #
-# Passwords are set to "password123" for both fixtures.
-# The encrypted value below is a bcrypt hash of "password123" with stretches: 1
-# (test environment uses stretches: 1 for speed, set in config/initializers/devise.rb)
+# Password for both fixture users: password123
 
 one:
   email: alice@example.com
-  encrypted_password: <%= BCrypt::Password.create("password123", cost: 1) %>
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
   name: Alice Example
   occupation: Writer
 
 two:
   email: bob@example.com
-  encrypted_password: <%= BCrypt::Password.create("password123", cost: 1) %>
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
   name: Bob Example
   occupation: Developer
