@@ -1,3 +1,4 @@
+cat > .github/workflows/ci.yml <<'YAML'
 name: CI
 
 on:
@@ -13,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -31,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -49,7 +50,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -64,13 +65,12 @@ jobs:
   test:
     name: Rails Tests
     runs-on: ubuntu-latest
-
     env:
       RAILS_ENV: test
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Install system packages
         run: |
@@ -104,3 +104,4 @@ jobs:
           name: system-test-screenshots
           path: tmp/screenshots
           if-no-files-found: ignore
+YAML
