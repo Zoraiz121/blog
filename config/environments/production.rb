@@ -36,7 +36,7 @@ Rails.application.configure do
   storage_service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
 
   if storage_service == :local
-    Rails.logger.warn(
+    config.logger.warn(
       "[TheContentHub] WARNING: ACTIVE_STORAGE_SERVICE is not set. " \
       "Using local disk storage in production — uploaded files will be " \
       "lost on restart. Set ACTIVE_STORAGE_SERVICE to amazon, google, " \
