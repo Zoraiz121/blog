@@ -17,7 +17,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.1.3"
+          ruby-version: "3.1.7"
           bundler: "2.6.9"
           bundler-cache: true
 
@@ -34,7 +34,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.1.3"
+          ruby-version: "3.1.7"
           bundler: "2.6.9"
           bundler-cache: true
 
@@ -51,7 +51,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.1.3"
+          ruby-version: "3.1.7"
           bundler: "2.6.9"
           bundler-cache: true
 
@@ -79,7 +79,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.1.3"
+          ruby-version: "3.1.7"
           bundler: "2.6.9"
           bundler-cache: true
 
