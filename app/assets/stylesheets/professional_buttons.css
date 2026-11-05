@@ -1,0 +1,64 @@
+
+/* Professional buttons for TheContentHub */
+
+.btn-professional {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 22px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-professional:hover {
+  transform: translateY(-2px);
+}
+
+.btn-professional:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+/* Primary button */
+.btn-brand {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn-brand:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+}
+
+/* Secondary button */
+.btn-outline-brand {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.btn-outline-brand:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+/* Delete button */
+.btn-danger-soft {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-danger-soft:hover {
+  background: #fecaca;
+  color: #991b1b;
+}

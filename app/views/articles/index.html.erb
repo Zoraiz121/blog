@@ -1,124 +1,213 @@
-<section class="hero-section">
+
+<section class="musing-hero">
   <div class="container">
-    <div class="row align-items-center py-5">
-      <div class="col-lg-8">
-        <span class="badge rounded-pill bg-light text-dark mb-3 px-3 py-2">
-          Rails Blog Platform
-        </span>
+    <div class="musing-hero-inner">
+      <p class="musing-eyebrow">THE CONTENT HUB · AN EDITORIAL SPACE</p>
 
-        <h1 class="display-5 fw-bold text-white mb-3">
-          Explore Latest Articles
-        </h1>
+      <h1>Stories that <em>stay with you.</em></h1>
 
-        <p class="lead text-white-50 mb-0">
-          Read, write, and manage blog posts with comments and secure ownership.
-        </p>
-      </div>
+      <p class="musing-hero-description">
+        A collection of thoughtful perspectives, fresh ideas,
+        and stories worth sharing.
+      </p>
 
-      <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
-        <% if user_signed_in? %>
-          <%= link_to "+ Write New Article", new_article_path, class: "btn btn-light btn-lg px-4 shadow-sm" %>
-        <% else %>
-          <%= link_to "Sign in to write", new_user_session_path, class: "btn btn-light btn-lg px-4 shadow-sm" %>
-        <% end %>
-      </div>
+      <a href="#latest-stories" class="musing-text-link">
+        EXPLORE THE JOURNAL <span aria-hidden="true">↗</span>
+      </a>
     </div>
   </div>
 </section>
 
-<div class="container my-5">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h2 class="fw-bold mb-1">All Articles</h2>
-      <p class="text-muted mb-0">Browse all blog posts</p>
+<% if @articles.any? && params[:query].blank? %>
+  <% featured = @articles.first %>
+
+  <section class="musing-featured">
+    <div class="container">
+      <div class="musing-section-heading">
+        <span>01 / EDITOR'S PICK</span>
+        <span>FEATURED STORY</span>
+      </div>
+
+      <div class="row g-0 align-items-center musing-featured-grid">
+        <div class="col-lg-7">
+          <%= link_to article_path(featured),
+              class: "musing-featured-image-link" do %>
+            <% if featured.cover_image.attached? %>
+              <%= image_tag featured.cover_image,
+                  class: "musing-featured-image",
+                  alt: featured.title %>
+            <% elsif featured.image.attached? %>
+              <%= image_tag featured.image,
+                  class: "musing-featured-image",
+                  alt: featured.title %>
+            <% else %>
+              <div class="musing-image-placeholder">
+                <span>THE CONTENT HUB</span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="musing-featured-content">
+            <p class="musing-eyebrow">
+              <%= featured.category.presence || "EDITORIAL" %>
+              · <%= featured.created_at.strftime("%B %d, %Y") %>
+            </p>
+
+            <h2>
+              <%= link_to featured.title, article_path(featured) %>
+            </h2>
+
+            <p class="musing-featured-excerpt">
+              <%= truncate(strip_tags(featured.body.to_s),
+                  length: 190) %>
+            </p>
+
+            <%= link_to "READ THE STORY ↗",
+                article_path(featured),
+                class: "musing-text-link" %>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+<% end %>
 
-  <div class="card border-0 shadow-sm mb-4">
-    <div class="card-body">
-      <%= form_with url: articles_path, method: :get, local: true, class: "d-flex gap-2" do |f| %>
-        <%= f.text_field :query,
+<section class="musing-journal" id="latest-stories">
+  <div class="container">
+    <div class="musing-journal-header">
+      <div>
+        <p class="musing-eyebrow">THE JOURNAL</p>
+        <h2>
+          <%= params[:query].present? ? "Search results" : "Latest stories" %>
+        </h2>
+      </div>
+
+      <% if user_signed_in? %>
+        <%= link_to "WRITE A STORY ↗",
+            new_article_path,
+            class: "musing-text-link" %>
+      <% end %>
+    </div>
+
+    <div class="musing-search">
+      <%= form_with url: articles_path,
+          method: :get,
+          local: true,
+          class: "musing-search-form" do |f| %>
+
+        <%= f.search_field :query,
             value: params[:query],
-            class: "form-control",
-            placeholder: "Search articles by title or content..." %>
+            placeholder: "Search stories...",
+            aria: { label: "Search stories" },
+            class: "musing-search-input" %>
 
-        <%= f.submit "Search", class: "btn btn-dark px-4" %>
+        <%= f.submit "SEARCH",
+            class: "musing-search-button" %>
 
         <% if params[:query].present? %>
-          <%= link_to "Clear", articles_path, class: "btn btn-outline-secondary" %>
+          <%= link_to "CLEAR",
+              articles_path,
+              class: "musing-search-clear" %>
         <% end %>
       <% end %>
     </div>
-  </div>
 
-  <% if @articles.empty? %>
-    <div class="empty-state text-center">
-      <h4>No articles yet</h4>
-      <p class="text-muted">Start by creating your first article.</p>
+    <% if @articles.empty? %>
+      <div class="musing-empty">
+        <h3>No stories found.</h3>
+        <p>
+          <%= params[:query].present? ?
+              "Try a different search." :
+              "The first story is waiting to be written." %>
+        </p>
 
-      <% if user_signed_in? %>
-        <%= link_to "Create Article", new_article_path, class: "btn btn-dark px-4" %>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="row g-4">
-      <% @articles.each do |article| %>
-        <div class="col-md-6 col-lg-4">
-          <div class="article-card card h-100 border-0 shadow-sm">
-            <% if article.cover_image.attached? %>
-              <%= image_tag article.cover_image, class: "card-img-top article-card-img", alt: article.title %>
-            <% elsif article.image.attached? %>
-              <%= image_tag article.image, class: "card-img-top article-card-img", alt: article.title %>
-            <% else %>
-              <div class="article-card-placeholder">
-                <span><%= article.title.first&.upcase || "B" %></span>
-              </div>
-            <% end %>
+        <% if user_signed_in? %>
+          <%= link_to "WRITE A STORY",
+              new_article_path,
+              class: "musing-primary-button" %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="row g-5">
+        <% @articles.each do |article| %>
+          <div class="col-md-6 col-lg-4">
+            <article class="musing-article-card">
+              <%= link_to article_path(article),
+                  class: "musing-card-image-link" do %>
 
-            <div class="card-body d-flex flex-column p-4">
-              <div class="d-flex gap-2 mb-3 flex-wrap">
-                <% if article.category.present? %>
-                  <span class="badge bg-primary-subtle text-primary">
-                    <%= article.category %>
-                  </span>
+                <% if article.cover_image.attached? %>
+                  <%= image_tag article.cover_image,
+                      class: "musing-card-image",
+                      alt: article.title,
+                      loading: "lazy" %>
+                <% elsif article.image.attached? %>
+                  <%= image_tag article.image,
+                      class: "musing-card-image",
+                      alt: article.title,
+                      loading: "lazy" %>
+                <% else %>
+                  <div class="musing-card-placeholder">
+                    <span>THE CONTENT HUB</span>
+                  </div>
                 <% end %>
+              <% end %>
 
-                <span class="badge bg-dark-subtle text-dark">
-                  <%= article.status == "public" ? "Published" : article.status.to_s.titleize %>
-                </span>
-              </div>
+              <div class="musing-card-content">
+                <p class="musing-card-category">
+                  <%= article.category.presence || "STORIES" %>
+                  <span>·</span>
+                  <%= article.created_at.strftime("%b %d, %Y") %>
+                </p>
 
-              <h4 class="fw-bold mb-2 article-card-title">
-                <%= link_to article.title, article_path(article), class: "text-dark text-decoration-none" %>
-              </h4>
+                <h3>
+                  <%= link_to article.title,
+                      article_path(article) %>
+                </h3>
 
-              <p class="text-muted article-card-excerpt flex-grow-1">
-                <%= truncate(strip_tags(article.body.to_s), length: 130) %>
-              </p>
+                <p class="musing-card-excerpt">
+                  <%= truncate(strip_tags(article.body.to_s),
+                      length: 125) %>
+                </p>
 
-              <div class="article-meta mb-3">
-                <span><%= article.created_at.strftime("%b %d, %Y") %></span>
-                <span>•</span>
-                <span><%= pluralize(article.comments_count, "comment") %></span>
-              </div>
-
-              <div class="d-flex gap-2 flex-wrap mt-auto">
-                <%= link_to "View", article_path(article), class: "btn btn-dark btn-sm px-3" %>
-
-                <% if user_signed_in? && article.user_id == current_user.id %>
-                  <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-primary btn-sm px-3" %>
-
-                  <%= button_to "Delete",
+                <div class="musing-card-bottom">
+                  <%= link_to "READ MORE ↗",
                       article_path(article),
-                      method: :delete,
-                      data: { turbo_confirm: "Are you sure?" },
-                      class: "btn btn-outline-danger btn-sm px-3" %>
+                      class: "musing-text-link" %>
+
+                  <span>
+                    <%= pluralize(article.comments_count, "comment") %>
+                  </span>
+                </div>
+
+                <% if user_signed_in? &&
+                      article.user_id == current_user.id %>
+                  <div class="musing-owner-actions">
+                    <%= link_to "Edit",
+                        edit_article_path(article),
+                        class: "musing-edit-link" %>
+
+                    <%= button_to "Delete",
+                        article_path(article),
+                        method: :delete,
+                        data: {
+                          turbo_confirm: "Delete this story?"
+                        },
+                        class: "musing-delete-button" %>
+                  </div>
                 <% end %>
               </div>
-            </div>
+            </article>
           </div>
+        <% end %>
+      </div>
+
+      <% if defined?(@pagy) && @pagy %>
+        <div class="musing-pagination">
+          <%= render "shared/pagination", pagy: @pagy %>
         </div>
       <% end %>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
+</section>

@@ -1,89 +1,116 @@
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card border-0 shadow-sm">
-        <div class="card-body p-4 p-md-5">
-          <h2 class="fw-bold mb-2">
-            <%= @article.persisted? ? "Edit Article" : "Create New Article" %>
-          </h2>
 
-          <p class="text-muted mb-4">
-            Write your article details below. Image upload is optional.
-          </p>
+<div class="musing-editor-shell">
+  <%= form_with model: article, local: true,
+      html: { multipart: true } do |f| %>
 
-          <%= form_with model: @article, local: true, html: { multipart: true } do |f| %>
-            <% if @article.errors.any? %>
-              <div class="alert alert-danger">
-                <h6 class="fw-bold">Please fix the following errors:</h6>
-                <ul class="mb-0">
-                  <% @article.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                  <% end %>
-                </ul>
-              </div>
-            <% end %>
-
-            <div class="mb-4">
-              <%= f.label :title, class: "form-label fw-semibold" %>
-              <%= f.text_field :title,
-                  class: "form-control form-control-lg",
-                  placeholder: "Enter article title" %>
-            </div>
-
-            <div class="mb-4">
-              <%= f.label :body, "Article Body", class: "form-label fw-semibold" %>
-              <%= f.text_area :body,
-                  rows: 10,
-                  class: "form-control",
-                  placeholder: "Write your article content here..." %>
-            </div>
-
-<div class="mb-4">
-  <%= f.label :status, class: "form-label fw-semibold" %>
-  <%= f.select :status,
-      [["Published", "published"], ["Draft", "draft"], ["Archived", "archived"]],
-      {},
-      class: "form-select" %>
-</div>
-
-            <div class="mb-4">
-              <%= f.label :category, class: "form-label fw-semibold" %>
-              <%= f.select :category,
-                  ["Technology", "Ruby on Rails", "Programming", "AI", "General"],
-                  { prompt: "Select category" },
-                  class: "form-select" %>
-            </div>
-
-            <div class="mb-4">
-              <%= f.label :cover_image, "Cover Image Optional", class: "form-label fw-semibold" %>
-              <%= f.file_field :cover_image, class: "form-control" %>
-
-              <% if @article.cover_image.attached? %>
-                <div class="mt-3">
-                  <p class="text-muted small mb-2">Current image:</p>
-                  <%= image_tag @article.cover_image,
-                      class: "rounded border",
-                      style: "max-width: 220px; height: 120px; object-fit: cover;" %>
-                </div>
-              <% elsif @article.image.attached? %>
-                <div class="mt-3">
-                  <p class="text-muted small mb-2">Current image:</p>
-                  <%= image_tag @article.image,
-                      class: "rounded border",
-                      style: "max-width: 220px; height: 120px; object-fit: cover;" %>
-                </div>
-              <% end %>
-            </div>
-
-            <div class="d-flex gap-2">
-              <%= f.submit @article.persisted? ? "Update Article" : "Create Article",
-                  class: "btn btn-dark px-4" %>
-
-              <%= link_to "Cancel", articles_path, class: "btn btn-outline-secondary px-4" %>
-            </div>
+    <% if article.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <strong>Please review your story:</strong>
+        <ul class="mb-0 mt-2">
+          <% article.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
           <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="musing-editor-section">
+      <p class="musing-editor-step">01 / THE HEADLINE</p>
+      <%= f.label :title, "Story title",
+          class: "musing-editor-label" %>
+
+      <%= f.text_field :title,
+          class: "musing-title-input",
+          placeholder: "Give your story a beautiful title...",
+          required: true %>
+    </div>
+
+    <div class="musing-editor-section">
+      <p class="musing-editor-step">02 / THE STORY</p>
+      <%= f.label :body, "Your story",
+          class: "musing-editor-label" %>
+
+      <%= f.text_area :body,
+          rows: 14,
+          class: "musing-body-input",
+          placeholder: "Once upon a time, an idea began...",
+          required: true,
+          minlength: 10 %>
+
+      <p class="musing-editor-hint">
+        Let your ideas flow. You can always refine them later.
+      </p>
+    </div>
+
+    <div class="musing-editor-section">
+      <p class="musing-editor-step">03 / STORY DETAILS</p>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <%= f.label :category, "Category",
+              class: "musing-editor-label" %>
+
+          <%= f.select :category,
+              ["Technology", "Ruby on Rails",
+               "Programming", "AI", "General"],
+              { prompt: "Choose a category" },
+              class: "musing-editor-select" %>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.label :status, "Publishing status",
+              class: "musing-editor-label" %>
+
+          <%= f.select :status,
+              [["Published", "published"],
+               ["Draft", "draft"],
+               ["Archived", "archived"]],
+              {},
+              class: "musing-editor-select" %>
         </div>
       </div>
     </div>
-  </div>
+
+    <div class="musing-editor-section">
+      <p class="musing-editor-step">04 / COVER IMAGE</p>
+
+      <%= f.label :cover_image, "Story cover",
+          class: "musing-editor-label" %>
+
+      <div class="musing-upload-area">
+        <div class="musing-upload-icon" aria-hidden="true">↥</div>
+        <p>Choose a beautiful image for your story</p>
+        <span>Recommended: landscape JPG, PNG or WebP</span>
+
+        <%= f.file_field :cover_image,
+            accept: "image/jpeg,image/png,image/webp",
+            class: "musing-file-input" %>
+      </div>
+
+      <% if article.cover_image.attached? %>
+        <div class="musing-current-cover">
+          <p>Current cover image</p>
+          <%= image_tag article.cover_image,
+              alt: "Current cover image" %>
+        </div>
+      <% elsif article.image.attached? %>
+        <div class="musing-current-cover">
+          <p>Current article image</p>
+          <%= image_tag article.image,
+              alt: "Current article image" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="musing-editor-actions">
+      <%= link_to "← BACK TO STORIES",
+          articles_path,
+          class: "musing-editor-cancel" %>
+
+      <%= f.submit(
+          article.persisted? ? "UPDATE STORY ↗" : "PUBLISH STORY ↗",
+          class: "musing-editor-submit"
+      ) %>
+    </div>
+  <% end %>
 </div>

@@ -1,51 +1,83 @@
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-5">
+<section class="musing-auth-page">
+  <div class="musing-auth-container">
 
-      <div class="card shadow">
-        <div class="card-body p-4">
+    <div class="musing-auth-heading">
+      <p class="musing-eyebrow">THE CONTENT HUB / MEMBERS AREA</p>
 
-          <h3 class="text-center mb-4">Sign In</h3>
+      <h1>Welcome <em>back.</em></h1>
 
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <p>
+        A space for ideas, stories, and thoughtful conversations.
+        Sign in to continue your journey.
+      </p>
+    </div>
 
-            <div class="mb-3">
-              <%= f.label :email, class: "form-label" %>
-              <%= f.email_field :email,
-                    autofocus: true,
-                    autocomplete: "email",
-                    class: "form-control" %>
-            </div>
-
-            <div class="mb-3">
-              <%= f.label :password, class: "form-label" %>
-              <%= f.password_field :password,
-                    autocomplete: "current-password",
-                    class: "form-control" %>
-            </div>
-
-            <% if devise_mapping.rememberable? %>
-              <div class="mb-3 form-check">
-                <%= f.check_box :remember_me, class: "form-check-input" %>
-                <%= f.label :remember_me, class: "form-check-label" %>
-              </div>
-            <% end %>
-
-            <div class="d-grid mb-3">
-              <%= f.submit "Sign In", class: "btn btn-primary" %>
-            </div>
-
-          <% end %>
-
-          <hr>
-
-          <div class="text-center small">
-            <%= render "devise/shared/links" %>
-          </div>
-
-        </div>
+    <div class="musing-auth-card">
+      <div class="musing-auth-card-header">
+        <span>01 / MEMBER ACCESS</span>
+        <span>THE CONTENT HUB</span>
       </div>
 
+      <h2>Sign in to your account</h2>
+
+      <%= form_for(resource,
+          as: resource_name,
+          url: session_path(resource_name),
+          html: { class: "musing-auth-form" }) do |f| %>
+
+        <div class="musing-auth-field">
+          <%= f.label :email, "Email address" %>
+          <%= f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              placeholder: "you@example.com",
+              class: "musing-auth-input" %>
+        </div>
+
+        <div class="musing-auth-field">
+          <div class="musing-auth-label-row">
+            <%= f.label :password, "Password" %>
+
+            <% if devise_mapping.recoverable? %>
+              <%= link_to "Forgot password?",
+                  new_password_path(resource_name),
+                  class: "musing-auth-small-link" %>
+            <% end %>
+          </div>
+
+          <%= f.password_field :password,
+              autocomplete: "current-password",
+              placeholder: "Enter your password",
+              class: "musing-auth-input" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="musing-auth-remember">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me, "Keep me signed in" %>
+          </div>
+        <% end %>
+
+        <%= f.submit "SIGN IN →",
+            class: "musing-auth-submit" %>
+      <% end %>
+
+      <div class="musing-auth-bottom">
+        <p>
+          New to The Content Hub?
+
+          <% if devise_mapping.registerable? %>
+            <%= link_to "Create an account",
+                new_registration_path(resource_name) %>
+          <% end %>
+        </p>
+      </div>
     </div>
+
+    <div class="musing-auth-footer">
+      <span>WORDS MATTER. STORIES CONNECT.</span>
+      <span>© <%= Date.current.year %> THE CONTENT HUB</span>
+    </div>
+
   </div>
-</div>
+</section>

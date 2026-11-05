@@ -1,0 +1,199 @@
+.musing-navbar {
+  position: relative;
+  z-index: 100;
+  background: #f8f5ef;
+  border-bottom: 1px solid #ded6ca;
+  font-family: Arial, sans-serif;
+}
+
+.musing-navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  min-height: 82px;
+}
+
+.musing-navbar-brand {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #292720;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.musing-navbar-brand span {
+  color: #89725d;
+}
+
+.musing-navbar-brand:hover {
+  color: #292720;
+}
+
+.musing-navbar-menu {
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 35px;
+}
+
+@media (min-width: 992px) {
+  .musing-navbar-menu.collapse:not(.show) {
+    display: flex;
+  }
+}
+
+.musing-navbar-links,
+.musing-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.musing-nav-link {
+  color: #625b51;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.musing-nav-link:hover {
+  color: #292720;
+}
+
+.musing-nav-write {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
+  background: #292720;
+  border: 1px solid #292720;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.musing-nav-write:hover {
+  background: #89725d;
+  border-color: #89725d;
+  color: #fff;
+}
+
+.musing-nav-account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.musing-nav-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #e8ded1;
+  color: #675542;
+  font-family: Georgia, serif;
+  font-size: 16px;
+}
+
+.musing-nav-email {
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #756e63;
+}
+
+.musing-nav-signout {
+  padding: 12px 17px;
+  border: 1px solid #bdb3a5;
+  border-radius: 2px;
+  background: transparent;
+  color: #292720;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.musing-nav-signout:hover {
+  background: #e8ded1;
+}
+
+.musing-nav-signin {
+  color: #292720;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.musing-nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid #ded6ca;
+  background: transparent;
+  cursor: pointer;
+}
+
+.musing-nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #292720;
+}
+
+@media (max-width: 991px) {
+  .musing-navbar-inner {
+    flex-wrap: wrap;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .musing-nav-toggle {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .musing-navbar-menu {
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+    padding: 24px 0 12px;
+    border-top: 1px solid #ded6ca;
+  }
+
+  .musing-navbar-menu.collapse:not(.show) {
+    display: none;
+  }
+
+  .musing-navbar-menu.collapse.show {
+    display: flex;
+  }
+
+  .musing-navbar-links,
+  .musing-navbar-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .musing-nav-email {
+    max-width: 240px;
+  }
+}

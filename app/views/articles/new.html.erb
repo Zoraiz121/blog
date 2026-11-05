@@ -1,42 +1,15 @@
-<div class="container mt-4">
-  <div class="card shadow p-4">
 
-    <h2 class="mb-4">Create New Article</h2>
+<section class="musing-editor-page">
+  <div class="container">
+    <div class="musing-editor-heading">
+      <p class="musing-eyebrow">THE CONTENT HUB / EDITORIAL STUDIO</p>
+      <h1>Tell your <em>story.</em></h1>
+      <p>
+        Every great idea deserves a beautiful place to live.
+        Start creating something meaningful.
+      </p>
+    </div>
 
-    <% if @article.errors.any? %>
-      <div class="alert alert-danger">
-        <ul>
-          <% @article.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <%= form_with(model: @article, local: true) do |f| %>
-
-      <div class="mb-3">
-        <%= f.label :title %>
-        <%= f.text_field :title, class: "form-control" %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.label :body %>
-        <%= f.text_area :body, rows: 8, class: "form-control" %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.label :image, "Featured Image" %>
-        <%= f.file_field :image, class: "form-control" %>
-      </div>
-
-      <div class="d-flex justify-content-between">
-        <%= link_to "← Back to Articles", articles_path, class: "btn btn-outline-secondary" %>
-
-        <%= f.submit "Publish Article", class: "btn btn-primary px-4" %>
-      </div>
-
-    <% end %>
-
+    <%= render "form", article: @article %>
   </div>
-</div>
+</section>
