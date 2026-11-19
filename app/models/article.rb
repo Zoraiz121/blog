@@ -11,7 +11,7 @@ class Article < ApplicationRecord
   has_one_attached :cover_image
   has_one_attached :image
 
-  #before_save :test_callback
+  # before_save :test_callback
 
   # Validations
   validates :title, presence: true
@@ -39,7 +39,7 @@ private
 def title_must_not_contain_restricted_words
   restricted_words = %w[test admin]
 
-  if restricted_words.any? { |word| title.to_s.downcase.include?(word) }
+  if restricted_words.any? { |word| title.to_s.downcase.split.include?(word) }
     errors.add(:title, "contains a restricted word")
   end
 end
@@ -96,10 +96,10 @@ end
     cover_image.variant(dimensions)
   end
 
- #private
-  #def test_callback
-    # do something
+  # private
+  # def test_callback
+  # do something
 
-   # binding.pry
-  #end
+  # binding.pry
+  # end
 end
