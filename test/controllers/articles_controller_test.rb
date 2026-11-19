@@ -10,8 +10,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     )
 
     @article = Article.create!(
-      title: "Test Article",
-      body: "Test article body.",
+      title: "Testing Article",
+      body: "Testing article body.",
       user: @user
     )
   end
@@ -36,8 +36,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Article.count", 1) do
       post articles_url, params: {
         article: {
-          title: "Created Through Test",
-          body: "This article was created by an automated test."
+          title: "Created Through Rails",
+          body: "This article was created by an automated testing."
         }
       }
     end
