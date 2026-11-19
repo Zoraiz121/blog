@@ -1,4 +1,3 @@
-
 <div class="musing-editor-shell">
   <%= form_with model: article, local: true,
       html: { multipart: true } do |f| %>
@@ -33,9 +32,7 @@
       <%= f.text_area :body,
           rows: 14,
           class: "musing-body-input",
-          placeholder: "Once upon a time, an idea began...",
-          required: true,
-          minlength: 10 %>
+          placeholder: "Once upon a time, an idea began..." %>
 
       <p class="musing-editor-hint">
         Let your ideas flow. You can always refine them later.

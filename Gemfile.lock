@@ -118,6 +118,7 @@ GEM
     cgi (0.5.2)
     childprocess (5.1.0)
       logger (~> 1.5)
+    coderay (1.1.3)
     concurrent-ruby (1.3.7)
     connection_pool (2.5.5)
     crass (1.0.7)
@@ -230,6 +231,7 @@ GEM
       net-smtp
     marcel (1.2.1)
     matrix (0.4.2)
+    method_source (1.1.0)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     minitest (5.27.0)
@@ -263,6 +265,10 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.9.0)
+    pry (0.16.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+      reline (>= 0.6.0)
     psych (5.4.0)
       date
       stringio
@@ -435,6 +441,7 @@ DEPENDENCIES
   letter_opener
   pagy
   pg
+  pry
   puma (>= 5.0)
   rails (~> 7.2.2, >= 7.2.2.1)
   rubocop-rails-omakase

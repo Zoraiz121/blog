@@ -11,9 +11,45 @@ class Article < ApplicationRecord
   has_one_attached :cover_image
   has_one_attached :image
 
+  #before_save :test_callback
+
   # Validations
   validates :title, presence: true
   validates :body, presence: true, length: { minimum: 10 }
+  validates :title,
+          presence: { message: "can't be blank" },
+          length: {
+            minimum: 5,
+            maximum: 100,
+            message: "must be between 5 and 100 characters"
+          }
+
+validates :body,
+          presence: { message: "can't be blank" },
+          length: {
+            minimum: 10,
+            maximum: 5000,
+            message: "must be between 10 and 5000 characters"
+          }
+
+validate :title_must_not_contain_restricted_words
+
+private
+
+def title_must_not_contain_restricted_words
+  restricted_words = %w[test admin]
+
+  if restricted_words.any? { |word| title.to_s.downcase.include?(word) }
+    errors.add(:title, "contains a restricted word")
+  end
+end
+
+
+
+
+  # scope :draft_articles -> {where(status: "draft")}
+
+  # Article.draft_articles
 
   # Regenerate slug when title changes
   def should_generate_new_friendly_id?
@@ -59,4 +95,11 @@ class Article < ApplicationRecord
 
     cover_image.variant(dimensions)
   end
+
+ #private
+  #def test_callback
+    # do something
+
+   # binding.pry
+  #end
 end

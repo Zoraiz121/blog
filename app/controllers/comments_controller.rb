@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_article
+  before_action :set_article, only: [ :create ]
   before_action :set_comment, only: [ :edit, :update, :destroy ]
   before_action :authorize_comment_owner!, only: [ :edit, :update, :destroy ]
 
@@ -9,9 +9,9 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      redirect_to @article, notice: "Comment added successfully."
+      redirect_to @comment.article, notice: "Comment added successfully."
     else
-      redirect_to @article, alert: "Comment cannot be blank."
+      redirect_to @comment.article, alert: "Comment cannot be blank."
     end
   end
 
@@ -20,7 +20,7 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      redirect_to @article, notice: "Comment updated successfully."
+      redirect_to @comment.article, notice: "Comment updated successfully."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    redirect_to @article, notice: "Comment deleted successfully."
+    redirect_to @comment.article, notice: "Comment deleted successfully."
   end
 
   private
@@ -38,7 +38,7 @@ class CommentsController < ApplicationController
   end
 
   def set_comment
-    @comment = @article.comments.find(params[:id])
+    @comment = Comment.find(params[:id])
   end
 
   def authorize_comment_owner!

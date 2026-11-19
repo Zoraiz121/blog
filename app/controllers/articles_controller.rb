@@ -5,7 +5,10 @@ class ArticlesController < ApplicationController
 
 def index
   articles = Article
-               .includes(:cover_image_attachment)
+               .includes(
+                 :cover_image_attachment,
+                 :image_attachment
+               )
                .order(created_at: :desc)
 
   if params[:query].present?
@@ -20,10 +23,10 @@ def index
   @pagy, @articles = pagy(articles)
 end
 
-  def show
-    @comments = @article.comments.includes(:user).order(created_at: :desc)
-    @comment = Comment.new
-  end
+def show
+  @comments = @article.comments.includes(:user).order(created_at: :desc)
+  @comment = Comment.new
+end
 
   def new
     @article = Article.new
