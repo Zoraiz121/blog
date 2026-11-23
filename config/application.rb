@@ -15,5 +15,6 @@ module Blog
   class Application < Rails::Application
     config.load_defaults 7.2
     config.autoload_lib(ignore: %w[assets tasks])
+    config.time_zone = "Asia/Karachi"
   end
 end
