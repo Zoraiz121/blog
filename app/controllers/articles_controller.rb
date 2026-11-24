@@ -6,8 +6,7 @@ class ArticlesController < ApplicationController
 def index
   articles = Article
                .includes(
-                 :cover_image_attachment,
-                 :image_attachment
+                 :cover_image_attachment
                )
                .order(created_at: :desc)
 
