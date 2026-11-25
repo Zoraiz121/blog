@@ -2,12 +2,14 @@
   <div class="container my-5">
     <%= link_to "← Back to Articles", articles_path, class: "btn btn-outline-secondary mb-4" %>
 
-    <article class="card border-0 shadow-sm overflow-hidden">
-      <% if @article.cover_image.attached? %>
-        <%= image_tag @article.cover_image, class: "article-hero-img", alt: @article.title %>
-      <% elsif @article.image.attached? %>
-        <%= image_tag @article.image, class: "article-hero-img", alt: @article.title %>
-      <% end %>
+<article class="card border-0 shadow-sm overflow-hidden">
+  <% if @article.cover_image.attached? %>
+    <%= image_tag @article.cover_image, class: "article-hero-img", alt: @article.title %>
+  <% else %>
+    <div class="article-image-placeholder">
+      No image available
+    </div>
+  <% end %>
 
       <div class="card-body p-4 p-md-5">
         <div class="d-flex gap-2 mb-3 flex-wrap">
