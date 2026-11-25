@@ -33,18 +33,15 @@
           <%= link_to article_path(featured),
               class: "musing-featured-image-link" do %>
             <% if featured.cover_image.attached? %>
-              <%= image_tag featured.cover_image,
-                  class: "musing-featured-image",
-                  alt: featured.title %>
-            <% elsif featured.image.attached? %>
-              <%= image_tag featured.image,
-                  class: "musing-featured-image",
-                  alt: featured.title %>
-            <% else %>
-              <div class="musing-image-placeholder">
-                <span>THE CONTENT HUB</span>
-              </div>
-            <% end %>
+  <%= image_tag featured.cover_image,
+      class: "musing-card-image",
+      alt: featured.title,
+      loading: "lazy" %>
+<% else %>
+  <div class="musing-card-placeholder">
+    <span>THE CONTENT HUB</span>
+  </div>
+<% end %>
           <% end %>
         </div>
 
@@ -137,21 +134,16 @@
               <%= link_to article_path(article),
                   class: "musing-card-image-link" do %>
 
-                <% if article.cover_image.attached? %>
-                  <%= image_tag article.cover_image,
-                      class: "musing-card-image",
-                      alt: article.title,
-                      loading: "lazy" %>
-                <% elsif article.image.attached? %>
-                  <%= image_tag article.image,
-                      class: "musing-card-image",
-                      alt: article.title,
-                      loading: "lazy" %>
-                <% else %>
-                  <div class="musing-card-placeholder">
-                    <span>THE CONTENT HUB</span>
-                  </div>
-                <% end %>
+<% if article.cover_image.attached? %>
+  <%= image_tag article.cover_image,
+      class: "musing-card-image",
+      alt: article.title,
+      loading: "lazy" %>
+<% else %>
+  <div class="musing-card-placeholder">
+    <span>THE CONTENT HUB</span>
+  </div>
+<% end %>
               <% end %>
 
               <div class="musing-card-content">

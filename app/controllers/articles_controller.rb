@@ -5,10 +5,8 @@ class ArticlesController < ApplicationController
 
 def index
   articles = Article
-               .includes(
-                 :cover_image_attachment
-               )
-               .order(created_at: :desc)
+             .includes(:cover_image_attachment)
+             .order(created_at: :desc)
 
   if params[:query].present?
     search_term = "%#{ActiveRecord::Base.sanitize_sql_like(params[:query])}%"

@@ -79,25 +79,19 @@
         <p>Choose a beautiful image for your story</p>
         <span>Recommended: landscape JPG, PNG or WebP</span>
 
-        <%= f.file_field :cover_image,
-            accept: "image/jpeg,image/png,image/webp",
-            class: "musing-file-input" %>
-      </div>
+<%= f.file_field :cover_image,
+    accept: "image/jpeg,image/png,image/webp",
+    class: "musing-file-input" %>
+</div>
 
-      <% if article.cover_image.attached? %>
-        <div class="musing-current-cover">
-          <p>Current cover image</p>
-          <%= image_tag article.cover_image,
-              alt: "Current cover image" %>
-        </div>
-      <% elsif article.image.attached? %>
-        <div class="musing-current-cover">
-          <p>Current article image</p>
-          <%= image_tag article.image,
-              alt: "Current article image" %>
-        </div>
-      <% end %>
-    </div>
+<% if article.cover_image.attached? %>
+  <div class="musing-current-cover">
+    <p>Current cover image</p>
+    <%= image_tag article.cover_image,
+        alt: "Current cover image" %>
+  </div>
+<% end %>
+</div>
 
     <div class="musing-editor-actions">
       <%= link_to "← BACK TO STORIES",
